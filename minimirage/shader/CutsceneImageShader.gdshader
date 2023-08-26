@@ -1,0 +1,51 @@
+shader_type canvas_item;
+
+uniform bool is_background = false;
+uniform vec2 position = vec2(0.0, 0.0);
+uniform vec2 scale = vec2(1.0, 1.0);
+uniform float rotation = 0.0;
+uniform vec2 screen_size;
+
+const float TORAD = 3.1415926535/180.0;
+
+vec2 rotate(vec2 vec, float sine, float cosine)
+{
+    return vec2(vec.x * cosine - vec.y * sine, vec.x * sine + vec.y * cosine);
+}
+
+void vertex()
+{
+    if (!is_background)
+    {
+        VERTEX -= screen_size/2.0;
+        VERTEX *= scale;
+        VERTEX = rotate(VERTEX, sin(rotation*TORAD), cos(rotation*TORAD));
+        VERTEX += screen_size/2.0;
+        
+        VERTEX += position * screen_size.y * 0.5;
+    }
+    else
+    {
+        vec2 tex_size = 1.0/TEXTURE_PIXEL_SIZE;
+        vec2 tex_ar = tex_size / tex_size.y;
+        
+        UV -= 0.5;
+        UV /= scale;
+        UV *= tex_ar;
+        UV = rotate(UV, sin(-rotation*TORAD), cos(-rotation*TORAD));
+        UV /= tex_ar;
+        UV += 0.5;
+        
+        vec2 screen_ar = screen_size / screen_size.y;
+        vec2 offs = position / screen_ar * 0.5;
+        offs.y *= (tex_ar.x / screen_ar.x);
+        UV -= offs;
+    }
+}
+
+void fragment()
+{
+    COLOR = texture(TEXTURE, UV);
+    if (!is_background && (UV.x < 0.0 || UV.y < 0.0 || UV.x > 1.0 || UV.y > 1.0))
+        COLOR = vec4(0.0);
+}

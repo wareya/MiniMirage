@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://minimirage/font/Font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://minimirage/art/textbox_adv.png" type="Texture" id=2]
+[ext_resource path="res://minimirage/shader/CutsceneImageShader.gdshader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 3 )
+shader_param/is_background = false
+shader_param/position = Vector2( 0, 0 )
+shader_param/scale = Vector2( 1, 1 )
+shader_param/rotation = 0.0
+shader_param/screen_size = Vector2( 150, 150 )
+
+[node name="Textbox" type="TextureRect"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -640.0
+margin_top = -212.0
+margin_right = 640.0
+texture = ExtResource( 2 )
+stretch_mode = 1
+
+[node name="Label" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -385.0
+margin_top = 70.0
+margin_right = 385.0
+margin_bottom = -25.0
+rect_clip_content = false
+custom_constants/line_separation = 4
+custom_fonts/normal_font = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "From here to there to the ends of the earth, I will be there!
+Over and over and over and over...
+Until hell freezes over!
+Until time itself stops!"
+text = "From here to there to the ends of the earth, I will be there!
+Over and over and over and over...
+Until hell freezes over!
+Until time itself stops!"
+
+[node name="Portrait" type="TextureRect" parent="."]
+material = SubResource( 1 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -547.0
+margin_top = -162.0
+margin_right = -397.0
+margin_bottom = -12.0
+expand = true
+
+[node name="Nametag" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -368.0
+margin_top = -181.0
+margin_right = -304.0
+margin_bottom = -156.0
+custom_fonts/font = ExtResource( 1 )

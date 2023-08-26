@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://minimirage/shader/CutsceneImageMat.tres" type="Material" id=1]
+[ext_resource path="res://minimirage/scenes/ChatTextbox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://minimirage/scenes/CutsceneInstance.gd" type="Script" id=3]
+
+[node name="Cutscene" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="ChatTextbox" parent="." instance=ExtResource( 2 )]
+material = ExtResource( 1 )
