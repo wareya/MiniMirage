@@ -340,7 +340,7 @@ func image_destroy(tr : TextureRect):
     if is_instance_valid(tr):
         tr.queue_free()
 
-class _SignalWaiter extends Reference:
+class MultiSignalWaiter extends Reference:
     signal all_finished
     var count : int = 0
     func connectify(obj, what):
@@ -359,7 +359,7 @@ func finish():
             images_to_wait.push_back(image)
     textbox_hide()
     
-    var waiter : _SignalWaiter = _SignalWaiter.new()
+    var waiter : MultiSignalWaiter = MultiSignalWaiter.new()
     for image in images_to_wait:
         waiter.connectify(image, "transition_finished")
     waiter.connectify(self, "textbox_transition_finished")
