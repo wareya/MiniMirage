@@ -475,8 +475,9 @@ func _process(delta):
         
         if do_continue:
             if should_advance_input():
-                yield(Engine.get_main_loop(), "idle_frame")
-            emit_signal("cutscene_continue")
+                call_deferred("emit_signal", "cutscene_continue")
+            else:
+                emit_signal("cutscene_continue")
     else:
         label.visible_characters = 0
         adv_textbox.get_node("Nametag").visible_characters = 0
