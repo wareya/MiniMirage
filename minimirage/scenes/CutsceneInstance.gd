@@ -340,23 +340,33 @@ func image_destroy(tr : TextureRect):
     if is_instance_valid(tr):
         tr.queue_free()
 
+class _SignalWaiter extends Reference:
+    signal all_finished
+    var count : int = 0
+    func connectify(obj, what):
+        count += 1
+        yield(obj, what)
+        count -= 1
+        if count == 0:
+            emit_signal("all_finished")
+
 ## Call at the end of the cutscene to ensure proper cleanup.
 func finish():
     var images_to_wait = []
     for image in images:
-        if image.modulate.a > 0.0:
+        if image.modulate.a > 0.0 and is_instance_valid(image):
             image_hide(image)
             images_to_wait.push_back(image)
     textbox_hide()
     
-    # FIXME: this is fragile. use a multi-signal connector instead
+    var waiter : _SignalWaiter = _SignalWaiter.new()
     for image in images_to_wait:
-        yield(image, "transition_finished")
-    yield(current_textbox, "transition_finished")
+        waiter.connectify(image, "transition_finished")
+    waiter.connectify(self, "textbox_transition_finished")
+    yield(waiter, "all_finished")
     
     queue_free()
     emit_signal("cutscene_finished")
-
 
 # Used internally.
 static func item_transition(tr : CanvasItem, property : String, start, end, speed):
