@@ -4,6 +4,8 @@ Mini Mirage is a lightweight VN-style cutscene engine (not meant for actual VNs)
 
 Don't try to use this for actual VNs. It's missing countless essential VN features.
 
+![image](Godot_v3.5-stable_win64_2023-08-26_02-52-32.png)
+
 ## Docs
 
 Custom input actions you can add: 
