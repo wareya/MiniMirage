@@ -22,7 +22,25 @@ Custom input actions you can add:
 
 (common example: ctrl. please do not put this on alt.)
 
-### Methods List
+### CutsceneStarter Methods List
+
+See `Demo.gd` for an example of how to use CutsceneStarter.
+
+`static CutsceneInstance load_and_start_cutscene(filename: String, function_name: String)`
+
+`static CutsceneInstance start_cutscene(script: Object, function_name: String)`
+
+### CutsceneStarter Method Descriptions
+
+`static CutsceneInstance load_and_start_cutscene(filename: String, function_name: String)`
+
+Starts a cutscene function (from a script file) with a new CutsceneInstance. Returns the new CutsceneInstance to control the new cutscene.
+
+`static CutsceneInstance start_cutscene(script: Object, function_name: String)`
+
+Starts a cutscene function (from an object) with a new CutsceneInstance. Returns the new CutsceneInstance to control the new cutscene.
+
+### CutsceneInstance Methods List
 
 - `TextureRect add_background(texture: Texture)`
 - `TextureRect add_tachie(texture: Texture)`
@@ -50,7 +68,7 @@ Custom input actions you can add:
 - `void textbox_set_chat(pos: Vector2, orientation: String)`
 - `void textbox_show()`
 
-### Signals
+### CutsceneInstance Signals
 
 - `cutscene_continue()`
 
@@ -64,7 +82,7 @@ Emitted when the cutscene is finished.
 
 Emitted when the textbox has finished being shown or hidden.
 
-### Constants (that you can change)
+### CutsceneInstance Constants (that you can change)
 
 - `typein_speed = 90`
 
@@ -96,7 +114,7 @@ Speed at which images move when smoothly moved. Reciprocal of seconds.
 
 Speed at which images move when smoothly moved. Reciprocal of seconds.
 
-### Method Descriptions
+### CutsceneInstance Method Descriptions
 
 - `TextureRect add_background(texture: Texture)`
 
