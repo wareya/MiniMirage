@@ -1,6 +1,6 @@
 # Mini Mirage
 
-Mini Mirage is a lightweight VN-style cutscene engine (not meant for actual VNs) for Godot 3.
+Mini Mirage is a public domain and lightweight VN-style cutscene engine (not meant for actual VNs) for Godot 3.
 
 Don't try to use this for actual VNs. It's missing a large number of essential VN features, like transition masks, saving mid-cutscene, a backlog, etc.
 

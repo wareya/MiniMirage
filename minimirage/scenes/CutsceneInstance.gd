@@ -253,8 +253,8 @@ func estimate_good_chat_size(text : String):
     
     var line_count = size.y / orig_size.y
     
-    size.y += 4 * line_count
-    size.x += 5
+    size.y += 4 * line_count # 4 is the line spacing value, change this if you change line spacing in the chatbox's RichTextLabel
+    size.x += 5 # extra padding on the side just to help make sure it doesn't clip or wrap unnecessarily
     
     return size
 
