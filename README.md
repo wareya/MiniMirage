@@ -42,27 +42,27 @@ Starts a cutscene function (from an object) with a new CutsceneInstance. Returns
 
 ### CutsceneInstance Methods List
 
+- `static bool cutscene_is_running()`
+- `static bool should_advance_input()`
+- `static bool should_skip_anims()`
+- `static bool should_use_instant_text()`
 - `TextureRect add_background(texture: Texture)`
 - `TextureRect add_tachie(texture: Texture)`
 - `void adv_set_face(face: Texture, flipped: bool)`
 - `void chat_set_face(face: Texture, flipped: bool)`
 - `void clear_text()`
-- `bool cutscene_is_running()`
 - `void finish()`
 - `void fix_chatbox_size(size: Vector2)`
 - `void image_destroy(tr: TextureRect)`
-- `void image_hide(tr: TextureRect, speed: float)`
-- `void image_set_position(tr: TextureRect, pos: Vector2)`
-- `void image_set_scale(tr: TextureRect, scale: Vector2)`
-- `void image_set_texture(tr: TextureRect, tex: Texture)`
-- `void image_show(tr: TextureRect, speed: float)`
-- `void image_smooth_position(tr: TextureRect, pos: Vector2, speed: float)`
-- `void image_smooth_scale(tr: TextureRect, scale: Vector2, speed: float)`
+- `static void image_hide(tr: TextureRect, speed: float)`
+- `static void image_set_position(tr: TextureRect, pos: Vector2)`
+- `static void image_set_scale(tr: TextureRect, scale: Vector2)`
+- `static void image_set_texture(tr: TextureRect, tex: Texture)`
+- `static void image_show(tr: TextureRect, speed: float)`
+- `static void image_smooth_position(tr: TextureRect, pos: Vector2, speed: float)`
+- `static void image_smooth_scale(tr: TextureRect, scale: Vector2, speed: float)`
 - `void set_nametag(tag: String)`
 - `void set_text(text: String)`
-- `bool should_advance_input()`
-- `bool should_skip_anims()`
-- `bool should_use_instant_text()`
 - `void textbox_hide()`
 - `void textbox_set_adv()`
 - `void textbox_set_chat(pos: Vector2, orientation: String)`
@@ -116,6 +116,24 @@ Speed at which images move when smoothly moved. Reciprocal of seconds.
 
 ### CutsceneInstance Method Descriptions
 
+- `void cutscene_is_running()`
+
+Call to check whether any cutscenes are currently running. 
+
+For example, you can use this function to ignore input or pause the game when cutscenes are running.
+
+- `static void should_advance_input()`
+
+Returns whether the CutsceneInstance intends to advance the cutscene, based on user input.
+
+- `static void should_skip_anims()`
+
+Returns whether the CutsceneInstance intends to skip animations, based on user input.
+
+- `static void should_use_instant_text()`
+
+Returns whether the CutsceneInstance intends to make text come in instantly, based on user input.
+
 - `TextureRect add_background(texture: Texture)`
 
 Adds a background to the scene, returning an image. 
@@ -144,12 +162,6 @@ Applies instantly.
 
 Clears the textbox.
 
-- `void cutscene_is_running()`
-
-Call to check whether any cutscenes are currently running. 
-
-For example, you can use this function to ignore input or pause the game when cutscenes are running.
-
 - `void finish()`
 
 Call at the end of the cutscene to ensure proper cleanup.
@@ -164,7 +176,7 @@ Destroy an image, removing it from the scene and freeing its memory.
 
 The underlying texture will continue to exist until you stop using it (write null to whatever variable contains it). If you don't have the texture in a variable anywhere, then it will be freed immediately.
 
-- `void image_hide(tr: TextureRect, speed: float)`
+- `static void image_hide(tr: TextureRect, speed: float)`
 
 Hide the given image, playing a fade-out animation. 
 
@@ -172,7 +184,7 @@ Wait instruction:
 
 `yield(image, "transition_finished")`
 
-- `void image_set_position(tr: TextureRect, pos: Vector2)`
+- `static void image_set_position(tr: TextureRect, pos: Vector2)`
 
 Set the position for the given image. 
 
@@ -182,19 +194,19 @@ So, a position of Vector2(1.0, 0.0) is only about half way towards the right sid
 
 Applies instantly.
 
-- `void image_set_scale(tr: TextureRect, scale: Vector2)`
+- `static void image_set_scale(tr: TextureRect, scale: Vector2)`
 
 Set the scale for the given image. 
 
 Applies instantly.
 
-- `void image_set_texture(tr: TextureRect, tex: Texture)`
+- `static void image_set_texture(tr: TextureRect, tex: Texture)`
 
 Set the texture for the given image. 
 
 Applies instantly.
 
-- `void image_show(tr: TextureRect, speed: float)`
+- `static void image_show(tr: TextureRect, speed: float)`
 
 Show the given image, playing a fade-in animation. 
 
@@ -202,8 +214,7 @@ Wait instruction:
 
 `yield(image, "transition_finished")`
 
-
-- `void image_smooth_position(tr: TextureRect, pos: Vector2, speed: float)`
+- `void static image_smooth_position(tr: TextureRect, pos: Vector2, speed: float)`
 
 Set the position for the given image smoothly. See image_set_position() for more information. 
 
@@ -211,7 +222,7 @@ Wait instruction:
 
 `yield(image, "transition_finished")`
 
-- `void image_smooth_scale(tr: TextureRect, scale: Vector2, speed: float)`
+- `void static image_smooth_scale(tr: TextureRect, scale: Vector2, speed: float)`
 
 Set the scale for the given image smoothly. 
 
@@ -232,18 +243,6 @@ Sets the textbox and makes the cutscene instance start to type in the new text a
 To wait for the cutscene instance to get input from the user, use the following wait command: 
 
 `yield(instance, "cutscene_continue")`
-
-- `void should_advance_input()`
-
-Returns whether the CutsceneInstance intends to advance the cutscene, based on user input.
-
-- `void should_skip_anims()`
-
-Returns whether the CutsceneInstance intends to skip animations, based on user input.
-
-- `void should_use_instant_text()`
-
-Returns whether the CutsceneInstance intends to make text come in instantly, based on user input.
 
 - `void textbox_hide()`
 
