@@ -449,18 +449,21 @@ func _ready():
     VisualServer.canvas_item_set_z_index(adv_textbox.get_canvas_item(), 10)
     VisualServer.canvas_item_set_z_index(chat_textbox.get_canvas_item(), 10)
 
+# Returns whether the CutsceneInstance intends to advance the cutscene, based on user input.
 static func should_advance_input():
     var custom = false
     if InputMap.get_action_list("cutscene_advance").size() > 0:
         custom = Input.is_action_just_pressed("cutscene_advance")
     return custom or Input.is_action_just_pressed("ui_accept")
 
+# Returns whether the CutsceneInstance intends to skip animations, based on user input.
 static func should_use_instant_text():
     var custom = false
     if InputMap.get_action_list("cutscene_instant_text").size() > 0:
         custom = Input.is_action_just_pressed("cutscene_instant_text")
     return custom or Input.is_action_pressed("ui_cancel")
 
+# Returns whether the CutsceneInstance intends to make text come in instantly, based on user input.
 static func should_skip_anims():
     var custom = false
     if InputMap.get_action_list("cutscene_skip").size() > 0:
