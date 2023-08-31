@@ -76,7 +76,7 @@ func demo_cutscene(cutscene : CutsceneInstance):
     yield(image, "transition_finished")
     
     cutscene.image_set_scale(image, Vector2(1.0, 1.0))
-    cutscene.textbox_set_chat(Vector2(0.15, -0.35), "upright")
+    cutscene.textbox_set_chat(Vector2(0.3, -0.35), "upright")
     
     cutscene.set_text("You need to stop and smell the roses. Listen to the music. Help out a friend or two. That kind of thing.")
     yield(cutscene, "cutscene_continue")

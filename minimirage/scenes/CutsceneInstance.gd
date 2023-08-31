@@ -314,7 +314,6 @@ func fix_chatbox_size(size : Vector2):
     
     size += Vector2(outer_margin_x, outer_margin_y)
     
-    var ar = dummy_control.rect_size / dummy_control.rect_size.y
     var center = dummy_control.rect_size/2
     var offset = -size/2
     
@@ -331,7 +330,7 @@ func fix_chatbox_size(size : Vector2):
         chat_textbox.material.set_shader_param("scale", Vector2(-1.0, -1.0))
         offset = -size
     
-    var new_pos = center + offset + chat_pos*0.5*dummy_control.rect_size.y*ar
+    var new_pos = center + offset + chat_pos*0.5*dummy_control.rect_size.y
     
     chat_textbox.rect_position = new_pos
     chat_textbox.rect_size = size

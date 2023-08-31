@@ -1,6 +1,7 @@
 class_name CutsceneStarter
 
-## Starts a cutscene function (from a script file) with a new CutsceneInstance
+## Starts a cutscene function (from a script file) with a new CutsceneInstance.
+## Returns the new CutsceneInstance to control the new cutscene.
 static func load_and_start_cutscene(filename : String, function_name : String):
     # create a CutsceneInstance to keep track of the cutscene and add it to the scene
     var cutscene = CutsceneInstance.new()
@@ -23,7 +24,8 @@ static func load_and_start_cutscene(filename : String, function_name : String):
     # on your end: wait for the cutscene to finish
     #yield(cutscene, "cutscene_finished")
 
-## Starts a cutscene function (from an object) with a new CutsceneInstance
+## Starts a cutscene function (from an object) with a new CutsceneInstance.
+## Returns the new CutsceneInstance to control the new cutscene.
 static func start_cutscene(script : Object, function_name : String):
     # create a CutsceneInstance to keep track of the cutscene and add it to the scene
     var cutscene = CutsceneInstance.new()
