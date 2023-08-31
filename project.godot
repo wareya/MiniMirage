@@ -9,13 +9,19 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Control",
+"base": "CanvasLayer",
 "class": "CutsceneInstance",
 "language": "GDScript",
 "path": "res://minimirage/scenes/CutsceneInstance.gd"
+}, {
+"base": "Reference",
+"class": "CutsceneStarter",
+"language": "GDScript",
+"path": "res://minimirage/scenes/CutsceneStarter.gd"
 } ]
 _global_script_class_icons={
-"CutsceneInstance": ""
+"CutsceneInstance": "",
+"CutsceneStarter": ""
 }
 
 [application]

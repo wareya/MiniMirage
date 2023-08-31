@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 class_name CutsceneInstance
 
 # Custom input actions you can add:
@@ -32,6 +32,14 @@ signal cutscene_continue
 ## Emitted when the cutscene is finished.
 signal cutscene_finished
 
+## Used to translate global world positions into the adjustment fractions used for positioning tachie and textboxes.
+static func globalpos_to_screen_fraction(vec : Vector2):
+    var viewport : Viewport = Engine.get_main_loop().get_root()
+    var size =  viewport.get_visible_rect().size
+    var xform = viewport.canvas_transform
+    var local_vec = xform.xform(vec)
+    var fraction_vec = (local_vec - size/2.0)/size.y*2.0
+    return fraction_vec
 
 ## Call to check whether any cutscenes are currently running.
 ##
@@ -48,7 +56,6 @@ func set_text(text : String):
     var label = current_textbox.get_node("Label")
     
     if current_textbox == chat_textbox:
-        var portrait_size = chat_portrait.rect_size
         var size = estimate_good_chat_size(text)
         label.margin_left = _chat_textbox_alignment
         chat_portrait.visible = false
@@ -95,14 +102,16 @@ func add_tachie(texture : Texture) -> TextureRect:
     tr.margin_right = 0
     tr.margin_bottom = 0
     add_child(tr)
-    tr.material = preload("res://minimirage/shader/CutsceneImageMat.tres").duplicate()
+    
+    tr.material = preload("../shader/CutsceneImageMat.tres").duplicate()
     tr.material.set_shader_param("is_background", false)
     tr.material.set_shader_param("position", Vector2(0.0, 0.0))
     tr.material.set_shader_param("scale", Vector2(1.0, 1.0))
     tr.material.set_shader_param("rotation", 0.0)
-    tr.material.set_shader_param("screen_size", rect_size)
+    tr.material.set_shader_param("screen_size", dummy_control.rect_size)
     images[tr] = null
     tr.add_user_signal("transition_finished")
+    
     return tr
 
 ## Adds a background to the scene, returning an image.
@@ -305,8 +314,8 @@ func fix_chatbox_size(size : Vector2):
     
     size += Vector2(outer_margin_x, outer_margin_y)
     
-    var ar = rect_size / rect_size.y
-    var center = rect_size/2
+    var ar = dummy_control.rect_size / dummy_control.rect_size.y
+    var center = dummy_control.rect_size/2
     var offset = -size/2
     
     if chat_orientation == "upleft":
@@ -322,19 +331,19 @@ func fix_chatbox_size(size : Vector2):
         chat_textbox.material.set_shader_param("scale", Vector2(-1.0, -1.0))
         offset = -size
     
-    var new_pos = center + offset + chat_pos*0.5*rect_size.y*ar
+    var new_pos = center + offset + chat_pos*0.5*dummy_control.rect_size.y*ar
     
     chat_textbox.rect_position = new_pos
     chat_textbox.rect_size = size
     
     chat_textbox.material.set_shader_param("screen_size", size)
-    
+
 ## Destroy an image, removing it from the scene and freeing its memory.
 ##
 ## The underlying texture will continue to exist until you stop using it (write `null` to whatever variable contains it). If you don't have the texture in a variable anywhere, then it will be freed immediately.
 func image_destroy(tr : TextureRect):
     if tr in images:
-        images.erase(tr)
+        var _unused = images.erase(tr)
     if tr.get_parent():
         tr.get_parent().remove_child(tr)
     if is_instance_valid(tr):
@@ -398,6 +407,11 @@ static func item_hide(tr : CanvasItem, speed : float):
 static func item_show(tr : CanvasItem, speed : float):
     item_transition(tr, "modulate:a", 0.0, 1.0, speed)
 
+# _____________________________________________
+# |                                           |
+# |   MiniMirage internals. Here be dragons.  |
+# |                                           |
+# _____________________________________________
 
 var adv_textbox : Control = null
 var chat_textbox : NinePatchRect = null
@@ -405,18 +419,24 @@ var current_textbox : Control = null
 var chat_portrait : TextureRect = null
 var adv_portrait : TextureRect = null
 var _chat_textbox_alignment : float = 0.0
+
+var dummy_control : Control = null
+
 func _ready():
-    anchor_right = 1
-    anchor_bottom = 1
-    margin_right = 0
-    margin_bottom = 0
+    dummy_control = Control.new()
+    add_child(dummy_control)
+    dummy_control.anchor_right = 1
+    dummy_control.anchor_bottom = 1
+    dummy_control.margin_right = 0
+    dummy_control.margin_bottom = 0
     
     add_to_group("CutsceneInstance")
     
-    adv_textbox = preload("res://minimirage/scenes/Textbox.tscn").instance()
-    chat_textbox = preload("res://minimirage/scenes/ChatTextbox.tscn").instance()
+    adv_textbox = preload("Textbox.tscn").instance()
+    chat_textbox = preload("ChatTextbox.tscn").instance()
     add_child(adv_textbox)
     add_child(chat_textbox)
+    
     adv_textbox.add_user_signal("transition_finished")
     adv_textbox.modulate.a = 0.0
     chat_textbox.add_user_signal("transition_finished")
